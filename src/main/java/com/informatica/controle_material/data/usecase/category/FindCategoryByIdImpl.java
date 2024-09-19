@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.informatica.controle_material.data.exception.BadRequestException;
 import com.informatica.controle_material.domain.model.Category;
 import com.informatica.controle_material.domain.usecases.category.FindCategoryByIdUseCase;
 import com.informatica.controle_material.infra.repository.CategoryRepository;
@@ -15,7 +16,11 @@ public class FindCategoryByIdImpl implements FindCategoryByIdUseCase {
 
   @Override
   public Optional<Category> execute(Long id) {
-    return categoryRepository.findById(id);
+    try {
+      return categoryRepository.findById(id);
+    } catch (Exception e) {
+      throw new BadRequestException("Erro ao buscar a categoria");
+    }
   }
 
 }
