@@ -51,6 +51,9 @@ public class Item {
   @Column(name = "observation", nullable = true)
   private String observation;
 
+  @Column(name = "condition", nullable = false)
+  private String condition;
+
   @JsonIgnore
   @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private List<Loan> loans;

@@ -1,0 +1,39 @@
+package com.informatica.controle_material.data.dto.item;
+
+import com.informatica.controle_material.domain.model.Category;
+import com.informatica.controle_material.domain.model.Item;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+public record AddItemDTO(
+  @NotBlank(message = "O nome do item deve ser informado.")
+  String name, 
+  @NotBlank(message = "Um número de série válido deve ser informado")
+  String serialNumber, 
+  @NotNull(message = "Informe a quantidade do item")
+  Integer amount,
+  @NotNull(message = "Informe o preço do item")
+  Double price,
+  @NotBlank(message = "Uma observação do item deve ser informada")
+  String observation,
+  @NotBlank(message = "Um número de série válido deve ser informado")
+  String condition,
+  @NotNull(message = "Uma categoria válida deve ser informada")
+  Long categoryId
+) {
+
+  public Item toModel(Category category) {
+    Item item = new Item();
+    item.setCategory(category);
+    item.setAmount(amount);
+    item.setName(name);
+    item.setObservation(observation);
+    item.setPrice(price);
+    item.setSerialNumber(serialNumber);
+    item.setCondition(condition);
+
+    return item;
+  }
+
+}
