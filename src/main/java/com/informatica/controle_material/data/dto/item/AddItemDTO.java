@@ -19,6 +19,8 @@ public record AddItemDTO(
   String observation,
   @NotBlank(message = "Um número de série válido deve ser informado")
   String condition,
+  @NotBlank(message = "Um tipo de item válido deve ser informado")
+  String type,
   @NotNull(message = "Uma categoria válida deve ser informada")
   Long categoryId
 ) {
@@ -32,6 +34,7 @@ public record AddItemDTO(
     item.setPrice(price);
     item.setSerialNumber(serialNumber);
     item.setCondition(condition);
+    item.setType(type);
 
     return item;
   }
