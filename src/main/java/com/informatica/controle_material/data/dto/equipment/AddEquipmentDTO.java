@@ -18,6 +18,8 @@ public record AddEquipmentDTO(
   String observation,
   @NotBlank(message = "Um tipo de equipamento válido deve ser informado")
   String type,
+  @NotBlank(message = "Um estado válido deve ser informado")
+  String state,
   @NotNull(message = "Uma categoria válida deve ser informada")
   Long categoryId
 ) {
@@ -31,6 +33,7 @@ public record AddEquipmentDTO(
     equipment.setSerialNumber(serialNumber);
     equipment.setTotalPrice(totalPrice);
     equipment.setType(type);
+    equipment.setState(state);
 
     return equipment;
   }
