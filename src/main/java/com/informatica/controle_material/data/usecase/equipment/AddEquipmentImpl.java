@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.informatica.controle_material.data.dto.equipment.AddEquipmentDTO;
+import com.informatica.controle_material.data.exception.AlreadyExistsException;
 import com.informatica.controle_material.data.exception.NotFoundException;
 import com.informatica.controle_material.domain.model.Category;
 import com.informatica.controle_material.domain.model.Equipment;
@@ -30,6 +31,12 @@ public class AddEquipmentImpl implements AddEquipmentUseCase {
     
     if(categoryExists.isEmpty()) {
       throw new NotFoundException("A categoria "+addEquipmentDTO.categoryId()+" não existe");
+    }
+
+    Optional<Equipment> equipmentAlreadyExists = equipmentRepository.findByName(addEquipmentDTO.name());
+    
+    if(equipmentAlreadyExists.isPresent()) {
+      throw new AlreadyExistsException("O equipamento "+addEquipmentDTO.name()+" já está cadastrado");
     }
 
     Equipment equipment = addEquipmentDTO.toModel(categoryExists.get());
