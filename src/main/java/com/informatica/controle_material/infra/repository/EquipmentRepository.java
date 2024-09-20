@@ -10,4 +10,6 @@ public interface EquipmentRepository extends JpaRepository<Equipment, Long> {
   
   List<Equipment> findByType(String type);
 
+  List<Equipment> findByState(String state);
+
 }
