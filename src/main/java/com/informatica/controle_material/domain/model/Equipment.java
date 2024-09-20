@@ -45,7 +45,7 @@ public class Equipment {
   @Column(name = "total_price", nullable = false)
   private Double totalPrice;
 
-  @Column(name = "serial_number", unique = true, nullable = false)
+  @Column(name = "serial_number", unique = true, nullable = true)
   private String serialNumber;
 
   @Column(name = "observation", nullable = true)
