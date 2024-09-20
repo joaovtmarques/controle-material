@@ -39,7 +39,7 @@ public class Item {
   @Column(name = "name", unique = true, nullable = false)
   private String name;
 
-  @Column(name = "serial_number", nullable = false)
+  @Column(name = "serial_number", nullable = true)
   private String serialNumber;
 
   @Column(name = "amount", nullable = false)

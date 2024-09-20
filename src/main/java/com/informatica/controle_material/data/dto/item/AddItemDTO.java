@@ -9,7 +9,6 @@ import jakarta.validation.constraints.NotNull;
 public record AddItemDTO(
   @NotBlank(message = "O nome do item deve ser informado.")
   String name, 
-  @NotBlank(message = "Um número de série válido deve ser informado")
   String serialNumber, 
   @NotNull(message = "Informe a quantidade do item")
   Integer amount,
