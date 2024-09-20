@@ -9,7 +9,6 @@ import jakarta.validation.constraints.NotNull;
 public record AddEquipmentDTO(
   @NotBlank(message = "O nome do item deve ser informado.")
   String name,
-  @NotBlank(message = "Um número de série válido deve ser informado")
   String serialNumber,
   @NotNull(message = "Informe a quantidade disponível do equipamento")
   Integer amount,
@@ -17,6 +16,8 @@ public record AddEquipmentDTO(
   Double totalPrice,
   @NotBlank(message = "Uma observação do equipamento deve ser informada")
   String observation,
+  @NotBlank(message = "Um tipo de equipamento válido deve ser informado")
+  String type,
   @NotNull(message = "Uma categoria válida deve ser informada")
   Long categoryId
 ) {
@@ -29,6 +30,7 @@ public record AddEquipmentDTO(
     equipment.setObservation(observation);
     equipment.setSerialNumber(serialNumber);
     equipment.setTotalPrice(totalPrice);
+    equipment.setType(type);
 
     return equipment;
   }
