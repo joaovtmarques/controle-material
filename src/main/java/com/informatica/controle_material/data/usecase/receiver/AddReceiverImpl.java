@@ -2,6 +2,7 @@ package com.informatica.controle_material.data.usecase.receiver;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.informatica.controle_material.data.dto.receiver.AddReceiverDTO;
 import com.informatica.controle_material.domain.model.Receiver;
@@ -14,6 +15,7 @@ public class AddReceiverImpl implements AddReceiverUseCase {
   @Autowired
   private ReceiverRepository receiverRepository;
 
+  @Transactional
   @Override
   public Receiver execute(AddReceiverDTO addReceiverDTO) {
     Receiver receiver = addReceiverDTO.toModel();
