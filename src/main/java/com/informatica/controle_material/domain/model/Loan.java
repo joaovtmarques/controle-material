@@ -1,7 +1,5 @@
 package com.informatica.controle_material.domain.model;
 
-import java.util.Date;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -35,16 +33,19 @@ public class Loan {
   private Integer amount;
 
   @Column(name = "date", nullable = false)
-  private Date date;
+  private String date;
 
   @Column(name = "observation")
   private String observation;
 
   @Column(name = "devolution_date")
-  private Date devolutionDate;
+  private String devolutionDate;
 
   @Column(name = "status", columnDefinition = "varchar(25) default 'ABERTO'")
   private String status;
+
+  @Column(name = "type", nullable = false)
+  private String type;
 
   @ManyToOne
   @JoinColumn(name = "lender_id", nullable = false, updatable = false)

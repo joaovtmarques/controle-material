@@ -20,6 +20,8 @@ public record AddItemDTO(
   String condition,
   @NotBlank(message = "Um tipo de item válido deve ser informado")
   String type,
+  @NotNull(message = "Informe se o item está em carga")
+  Boolean isInCharge,
   @NotNull(message = "Uma categoria válida deve ser informada")
   Long categoryId
 ) {
@@ -34,6 +36,7 @@ public record AddItemDTO(
     item.setSerialNumber(serialNumber);
     item.setCondition(condition);
     item.setType(type);
+    item.setIsInCharge(isInCharge);
 
     return item;
   }

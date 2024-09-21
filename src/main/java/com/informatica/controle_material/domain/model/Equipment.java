@@ -57,6 +57,9 @@ public class Equipment {
   @Column(name = "state", nullable = false)
   private String state;
 
+  @Column(name = "is_in_charge", nullable = false)
+  private Boolean isInCharge;
+
   @JsonIgnore
   @OneToMany(mappedBy = "equipment", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private List<Loan> loans;
