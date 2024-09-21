@@ -8,6 +8,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.informatica.controle_material.data.exception.BadRequestException;
 import com.informatica.controle_material.data.exception.AlreadyExistsException;
 import com.informatica.controle_material.data.exception.NotFoundException;
+import com.informatica.controle_material.data.exception.UnauthorizedException;
 
 @ControllerAdvice
 public class ExceptionHandler extends ResponseEntityExceptionHandler {
@@ -25,6 +26,11 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
   @org.springframework.web.bind.annotation.ExceptionHandler(NotFoundException.class)
   private ResponseEntity<String> notFound(NotFoundException exception) {
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
+  }
+
+  @org.springframework.web.bind.annotation.ExceptionHandler(UnauthorizedException.class)
+  private ResponseEntity<String> unauthorized(UnauthorizedException exception) {
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(exception.getMessage());
   }
 
 }
