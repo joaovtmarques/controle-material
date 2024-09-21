@@ -30,6 +30,11 @@ public class SecurityConfig {
       .authorizeHttpRequests(authorize -> authorize
           .requestMatchers(HttpMethod.POST, "/api/users").hasAuthority("ADMIN")
           .requestMatchers(HttpMethod.POST, "/api/users").hasAuthority("ADMIN_PELCOM")
+          .requestMatchers(HttpMethod.GET, "/api/users").hasAuthority("ADMIN")
+          .requestMatchers(HttpMethod.GET, "/api/users").hasAuthority("ADMIN_PELCOM")
+          .requestMatchers(HttpMethod.PUT, "/api/users").hasAuthority("ADMIN")
+          .requestMatchers(HttpMethod.PUT, "/api/users").hasAuthority("ADMIN_PELCOM")
+          .requestMatchers(HttpMethod.DELETE, "/api/users").hasAuthority("ADMIN")
           .requestMatchers(HttpMethod.POST, "/api/auth").permitAll()
           // .requestMatchers("/swagger-ui/**", "/swagger-resources/*", "/v3/api-docs/**").permitAll()
           .anyRequest().authenticated()

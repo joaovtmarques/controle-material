@@ -27,6 +27,8 @@ public record AddUserDTO(
   String email,
   @NotBlank(message = "A senha do usuário deve ser informada.")
   String password,
+  @NotBlank(message = "A tipo de usuário deve ser informado.")
+  String type,
   List<Role> roles
 ) {
   
@@ -40,6 +42,7 @@ public record AddUserDTO(
     user.setRank(rank);
     user.setEmail(email);
     user.setPassword(encodedPassword);
+    user.setType(type);
     user.setRoles(roles);
     
     return user;

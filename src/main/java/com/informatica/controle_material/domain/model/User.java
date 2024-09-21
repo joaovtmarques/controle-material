@@ -40,7 +40,7 @@ public class User implements UserDetails {
   @Column(name = "id", updatable = false, unique = true, nullable = false)
   private Long id;
 
-  @Column(name = "name", unique = true, nullable = false)
+  @Column(name = "name", nullable = false)
   private String name;
   
   @Column(name = "war_name", nullable = false)
@@ -49,21 +49,24 @@ public class User implements UserDetails {
   @Column(name = "rank", nullable = false)
   private String rank; 
 
-  @Column(name = "company", unique = true, nullable = false)
+  @Column(name = "company", nullable = false)
   private String company;
 
   @Column(name = "cpf", unique = true, nullable = false)
   private String cpf;
 
-  @Column(name = "telephone", unique = true, nullable = false)
+  @Column(name = "telephone", nullable = false)
   private String telephone;
 
   @Column(name = "email", unique = true, nullable = false)
   private String email;
 
   @JsonIgnore
-  @Column(name = "password", unique = true, nullable = false)
+  @Column(name = "password", nullable = false)
   private String password;
+
+  @Column(name = "type", nullable = false)
+  private String type;
 
   @ManyToMany(fetch = FetchType.EAGER)
   private List<Role> roles;
