@@ -37,6 +37,9 @@ public class Category {
   @Column(name = "name", unique = true, nullable = false)
   private String name;
 
+  @Column(name = "type", nullable = false)
+  private String type;
+
   @JsonIgnore
   @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   private List<Item> items;

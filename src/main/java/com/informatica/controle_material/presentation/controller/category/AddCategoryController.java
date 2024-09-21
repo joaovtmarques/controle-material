@@ -26,7 +26,7 @@ public class AddCategoryController implements ControllerProtocol<AddCategoryDTO,
   @Override
   @PostMapping
   public ResponseEntity<Category> handle(@Valid @RequestBody AddCategoryDTO addCategoryDTO) {
-    Category category = addCategory.execute(addCategoryDTO.name());
+    Category category = addCategory.execute(addCategoryDTO);
     return ResponseEntity.status(201).body(category);
   }
 
