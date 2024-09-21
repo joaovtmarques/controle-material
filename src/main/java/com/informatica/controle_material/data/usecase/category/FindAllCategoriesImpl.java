@@ -17,9 +17,9 @@ public class FindAllCategoriesImpl implements FindAllCategoriesUseCase {
   private CategoryRepository categoryRepository;
 
   @Override
-  public List<Category> execute() {
+  public List<Category> execute(String type) {
     try {
-      return categoryRepository.findAll();
+      return categoryRepository.findByType(type);
     } catch (Exception e) {
       throw new BadRequestException("Erro ao buscar as categorias");
     }

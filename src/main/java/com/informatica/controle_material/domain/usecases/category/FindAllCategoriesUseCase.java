@@ -6,6 +6,6 @@ import com.informatica.controle_material.domain.model.Category;
 
 public interface FindAllCategoriesUseCase {
   
-  List<Category> execute();
+  List<Category> execute(String type);
 
 }

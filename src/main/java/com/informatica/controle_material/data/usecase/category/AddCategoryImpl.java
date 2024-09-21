@@ -19,9 +19,6 @@ public class AddCategoryImpl implements AddCategoryUseCase {
   @Transactional
   @Override
   public Category execute(AddCategoryDTO addCategoryDTO) {
-    if (categoryRepository.findByName(addCategoryDTO.name()).isPresent()) {
-      throw new AlreadyExistsException("O item "+addCategoryDTO.name()+" já esta cadastrado");
-    }
     Category category = addCategoryDTO.toModel();
     
     return categoryRepository.save(category);

@@ -34,7 +34,7 @@ public class Category {
   @Column(name = "id", updatable = false, unique = true, nullable = false)
   private Long id;
 
-  @Column(name = "name", unique = true, nullable = false)
+  @Column(name = "name", nullable = false)
   private String name;
 
   @Column(name = "type", nullable = false)
