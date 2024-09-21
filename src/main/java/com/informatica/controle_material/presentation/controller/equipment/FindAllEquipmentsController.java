@@ -13,7 +13,7 @@ import com.informatica.controle_material.domain.usecases.equipment.FindAllEquipm
 
 @RestController
 @RequestMapping("/api/equipments")
-public class FindaAllEquipmentsController {
+public class FindAllEquipmentsController {
   
   @Autowired
   private FindAllEquipmentsUseCase findAllEquipments;
