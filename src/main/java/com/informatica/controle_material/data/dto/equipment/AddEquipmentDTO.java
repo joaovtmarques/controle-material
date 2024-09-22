@@ -13,13 +13,15 @@ public record AddEquipmentDTO(
   @NotNull(message = "Informe a quantidade disponível do equipamento")
   Integer amount,
   @NotNull(message = "Informe o preço do equipamento")
-  Double totalPrice,
+  String price,
   @NotBlank(message = "Uma observação do equipamento deve ser informada")
   String observation,
   @NotBlank(message = "Um tipo de equipamento válido deve ser informado")
   String type,
   @NotBlank(message = "Um estado válido deve ser informado")
   String state,
+  @NotBlank(message = "Uma condição do equipamento deve ser informada")
+  String condition,
   @NotNull(message = "Informe se o equipamento está em carga")
   Boolean isInCharge,
   @NotNull(message = "Uma categoria válida deve ser informada")
@@ -33,9 +35,10 @@ public record AddEquipmentDTO(
     equipment.setName(name);
     equipment.setObservation(observation);
     equipment.setSerialNumber(serialNumber);
-    equipment.setTotalPrice(totalPrice);
+    equipment.setPrice(price);
     equipment.setType(type);
     equipment.setState(state);
+    equipment.setCondition(condition);
     equipment.setIsInCharge(isInCharge);
 
     return equipment;

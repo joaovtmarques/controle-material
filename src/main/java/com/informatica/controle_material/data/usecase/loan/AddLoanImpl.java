@@ -15,6 +15,7 @@ import com.informatica.controle_material.domain.model.Loan;
 import com.informatica.controle_material.domain.model.Receiver;
 import com.informatica.controle_material.domain.model.User;
 import com.informatica.controle_material.domain.usecases.loan.AddLoanUseCase;
+import com.informatica.controle_material.domain.usecases.loan_doc.AddLoanDocUseCase;
 import com.informatica.controle_material.infra.repository.EquipmentRepository;
 import com.informatica.controle_material.infra.repository.ItemRepository;
 import com.informatica.controle_material.infra.repository.LoanRepository;
@@ -38,6 +39,9 @@ public class AddLoanImpl implements AddLoanUseCase {
 
   @Autowired
   private EquipmentRepository equipmentRepository;
+
+  @Autowired
+  private AddLoanDocUseCase addLoanDoc;
 
   @Transactional
   @Override
@@ -84,6 +88,8 @@ public class AddLoanImpl implements AddLoanUseCase {
       equipmentExists.get().setState("CAUTELADO");
       equipmentRepository.save(equipmentExists.get());
     }
+
+    addLoanDoc.execute(loan);
 
     return loan;
   }

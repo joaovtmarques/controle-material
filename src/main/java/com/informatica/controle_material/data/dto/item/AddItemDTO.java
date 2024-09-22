@@ -13,7 +13,7 @@ public record AddItemDTO(
   @NotNull(message = "Informe a quantidade do item")
   Integer amount,
   @NotNull(message = "Informe o preço do item")
-  Double price,
+  String price,
   @NotBlank(message = "Uma observação do item deve ser informada")
   String observation,
   @NotBlank(message = "Um número de série válido deve ser informado")

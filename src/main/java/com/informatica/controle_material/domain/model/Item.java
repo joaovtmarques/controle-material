@@ -46,7 +46,7 @@ public class Item {
   private Integer amount;
 
   @Column(name = "price", nullable = false)
-  private Double price;
+  private String price;
 
   @Column(name = "observation", nullable = true)
   private String observation;

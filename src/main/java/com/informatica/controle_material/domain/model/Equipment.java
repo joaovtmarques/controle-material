@@ -43,7 +43,7 @@ public class Equipment {
   private Integer amount;
 
   @Column(name = "total_price", nullable = false)
-  private Double totalPrice;
+  private String price;
 
   @Column(name = "serial_number", unique = true, nullable = true)
   private String serialNumber;
@@ -59,6 +59,9 @@ public class Equipment {
 
   @Column(name = "is_in_charge", nullable = false)
   private Boolean isInCharge;
+
+  @Column(name = "condition", nullable = false)
+  private String condition;
 
   @JsonIgnore
   @OneToMany(mappedBy = "equipment", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
