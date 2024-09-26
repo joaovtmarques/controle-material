@@ -2,6 +2,7 @@ package com.informatica.controle_material.data.dto.loan;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import com.informatica.controle_material.domain.model.Equipment;
 import com.informatica.controle_material.domain.model.Item;
@@ -24,11 +25,11 @@ public record AddLoanDTO(
   Long lenderId,
   @NotNull(message = "Informe o recebedor da cautela")
   Long receiverId,
-  Long itemId,
-  Long equipmentId
+  List<Long> itemsId,
+  List<Long> equipmentsId
 ) {
 
-  public Loan toModelWithEquipment(Equipment equipment, User user, Receiver receiver) {
+  public Loan toModelWithEquipment(List<Equipment> equipments, User user, Receiver receiver) {
     Loan loan = new Loan();
     loan.setAmount(this.amount);
     loan.setDate(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
@@ -38,11 +39,11 @@ public record AddLoanDTO(
     loan.setType(this.type);
     loan.setLender(user);
     loan.setReceiver(receiver);
-    loan.setEquipment(equipment);
+    loan.setEquipments(equipments);
     return loan;
   }
 
-  public Loan toModelWithItem(Item item, User user, Receiver receiver) {
+  public Loan toModelWithItem(List<Item> items, User user, Receiver receiver) {
     Loan loan = new Loan();
     loan.setAmount(this.amount);
     loan.setDate(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
@@ -52,7 +53,7 @@ public record AddLoanDTO(
     loan.setType(this.type);
     loan.setLender(user);
     loan.setReceiver(receiver);
-    loan.setItem(item);
+    loan.setItems(items);
     return loan;
   }
   

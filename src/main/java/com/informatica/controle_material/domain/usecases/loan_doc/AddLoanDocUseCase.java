@@ -4,6 +4,6 @@ import com.informatica.controle_material.domain.model.Loan;
 
 public interface AddLoanDocUseCase {
  
-  void execute(Loan loan);
+  String execute(Loan loan);
 
 }

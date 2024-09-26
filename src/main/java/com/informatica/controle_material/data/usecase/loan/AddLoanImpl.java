@@ -1,5 +1,7 @@
 package com.informatica.controle_material.data.usecase.loan;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,17 +9,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.informatica.controle_material.data.dto.loan.AddLoanDTO;
+import com.informatica.controle_material.data.dto.loan.AddLoanResponseDTO;
 import com.informatica.controle_material.data.exception.BadRequestException;
 import com.informatica.controle_material.data.exception.NotFoundException;
 import com.informatica.controle_material.domain.model.Equipment;
 import com.informatica.controle_material.domain.model.Item;
 import com.informatica.controle_material.domain.model.Loan;
+import com.informatica.controle_material.domain.model.LoanDoc;
 import com.informatica.controle_material.domain.model.Receiver;
 import com.informatica.controle_material.domain.model.User;
 import com.informatica.controle_material.domain.usecases.loan.AddLoanUseCase;
 import com.informatica.controle_material.domain.usecases.loan_doc.AddLoanDocUseCase;
+import com.informatica.controle_material.infra.factory.AddLoanDocFactory;
 import com.informatica.controle_material.infra.repository.EquipmentRepository;
 import com.informatica.controle_material.infra.repository.ItemRepository;
+import com.informatica.controle_material.infra.repository.LoanDocRepository;
 import com.informatica.controle_material.infra.repository.LoanRepository;
 import com.informatica.controle_material.infra.repository.ReceiverRepository;
 import com.informatica.controle_material.infra.repository.UserRepository;
@@ -41,11 +47,19 @@ public class AddLoanImpl implements AddLoanUseCase {
   private EquipmentRepository equipmentRepository;
 
   @Autowired
+  private LoanDocRepository loanDocRepository;
+
+  private final AddLoanDocFactory addLoanDocFactory;
+
   private AddLoanDocUseCase addLoanDoc;
+
+  public AddLoanImpl(AddLoanDocFactory addLoanDocFactory) {
+    this.addLoanDocFactory = addLoanDocFactory;
+  }
 
   @Transactional
   @Override
-  public Loan execute(AddLoanDTO addLoanDTO) {
+  public AddLoanResponseDTO execute(AddLoanDTO addLoanDTO) {
     Optional<User> lenderExists = userRepository.findById(addLoanDTO.lenderId());
     
     if(!lenderExists.isPresent()) {
@@ -60,38 +74,60 @@ public class AddLoanImpl implements AddLoanUseCase {
     
     Loan loan = null;
 
-    if(addLoanDTO.itemId() != null) {
-      Optional<Item> itemExists = itemRepository.findById(addLoanDTO.itemId());
-      if(!itemExists.isPresent()) {
-        throw new NotFoundException("O item "+addLoanDTO.itemId()+" não existe");
+    if(addLoanDTO.itemsId() != null) {
+      List<Item> items = new ArrayList<Item>();
+      for(Long id : addLoanDTO.itemsId()) {
+        Optional<Item> itemExists = itemRepository.findById(id);
+        if(!itemExists.isPresent()) {
+          throw new NotFoundException("O item "+id+" não existe");
+        }
+        if(itemExists.get().getAmount() < addLoanDTO.amount()) {
+          throw new BadRequestException("O item "+itemExists.get().getId()+" não possui a quantidade solicitada");
+        }
+        itemExists.get().setAmount(itemExists.get().getAmount() - addLoanDTO.amount());
+        itemExists.get().setAmountOut(itemExists.get().getAmountOut() + addLoanDTO.amount());
+        items.add(itemExists.get());
       }
-      Loan loanToSave = addLoanDTO.toModelWithItem(itemExists.get(), lenderExists.get(), receiverExists.get());
+      Loan loanToSave = addLoanDTO.toModelWithItem(items, lenderExists.get(), receiverExists.get());
       loan = loanRepository.save(loanToSave);
-      if(itemExists.get().getAmount() < loanToSave.getAmount()) {
-        throw new BadRequestException("O item "+addLoanDTO.itemId()+" não possui a quantidade solicitada");
+      for(Item item : items) {
+        itemRepository.save(item);
       }
-      itemExists.get().setAmount(itemExists.get().getAmount() - loanToSave.getAmount());
-      itemRepository.save(itemExists.get());
     }
 
-    if(addLoanDTO.equipmentId() != null) {
-      Optional<Equipment> equipmentExists = equipmentRepository.findById(addLoanDTO.equipmentId());
-      if(!equipmentExists.isPresent()) {
-        throw new NotFoundException("O equipamento "+addLoanDTO.equipmentId()+" não existe");
+    if(addLoanDTO.equipmentsId() != null) {
+      List<Equipment> equipments = new ArrayList<Equipment>();
+      for(Long id : addLoanDTO.equipmentsId()) {
+        Optional<Equipment> equipmentExists = equipmentRepository.findById(id);
+        if(!equipmentExists.isPresent()) {
+          throw new NotFoundException("O equipamento "+id+" não existe");
+        }
+        if(equipmentExists.get().getAmount() < addLoanDTO.amount()) {
+          throw new BadRequestException("O equipamento "+equipmentExists.get().getId()+" não possui a quantidade solicitada");
+        }
+        equipmentExists.get().setAmount(equipmentExists.get().getAmount() - addLoanDTO.amount());
+        equipmentExists.get().setAmountOut(equipmentExists.get().getAmountOut() + addLoanDTO.amount());
+        equipmentExists.get().setState("CAUTELADO");
+        equipments.add(equipmentExists.get());
       }
-      Loan loanToSave = addLoanDTO.toModelWithEquipment(equipmentExists.get(), lenderExists.get(), receiverExists.get());
+      Loan loanToSave = addLoanDTO.toModelWithEquipment(equipments, lenderExists.get(), receiverExists.get());
       loan = loanRepository.save(loanToSave);
-      if(equipmentExists.get().getAmount() < loanToSave.getAmount()) { 
-        throw new BadRequestException("O equipamento "+addLoanDTO.equipmentId()+" não possui a quantidade solicitada");
+      for(Equipment equipment : equipments) {
+        equipmentRepository.save(equipment);
       }
-      equipmentExists.get().setAmount(equipmentExists.get().getAmount() - loanToSave.getAmount());
-      equipmentExists.get().setState("CAUTELADO");
-      equipmentRepository.save(equipmentExists.get());
     }
+    
+    addLoanDoc = addLoanDocFactory.getAddLoanDoc(loan);
 
-    addLoanDoc.execute(loan);
+    String filePath = addLoanDoc.execute(loan);
 
-    return loan;
+    LoanDoc loanDoc = new LoanDoc();
+    loanDoc.setLoan(loan);
+    loanDoc.setFilePath(filePath);
+    loanDocRepository.save(loanDoc);
+    loan.setLoanDoc(loanDoc);
+
+    return new AddLoanResponseDTO(loanRepository.save(loan));
   }
 
 }

@@ -1,11 +1,15 @@
 package com.informatica.controle_material.domain.model;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -55,12 +59,14 @@ public class Loan {
   @JoinColumn(name = "receiver_id", nullable = false, updatable = false)
   private Receiver receiver;
 
-  @ManyToOne
-  @JoinColumn(name = "item_id", nullable = true, updatable = false)
-  private Item item;
+  @ManyToMany(fetch = FetchType.EAGER)
+  private List<Item> items;
+
+  @ManyToMany(fetch = FetchType.EAGER)
+  private List<Equipment> equipments;
 
   @ManyToOne
-  @JoinColumn(name = "equipment_id", nullable = true,updatable = false)
-  private Equipment equipment;
+  @JoinColumn(name = "loan_doc_id", nullable = true, updatable = false)
+  private LoanDoc loanDoc;
 
 }

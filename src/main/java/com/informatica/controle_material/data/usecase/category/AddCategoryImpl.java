@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.informatica.controle_material.data.dto.category.AddCategoryDTO;
-import com.informatica.controle_material.data.exception.AlreadyExistsException;
 import com.informatica.controle_material.domain.model.Category;
 import com.informatica.controle_material.domain.usecases.category.AddCategoryUseCase;
 import com.informatica.controle_material.infra.repository.CategoryRepository;

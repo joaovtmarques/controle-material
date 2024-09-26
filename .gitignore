@@ -29,9 +29,11 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-/src/main/resources/tmp
+/tmp
 
 ### VS Code ###
 .vscode/
 
 .DS_STORE
+
+todo.txt

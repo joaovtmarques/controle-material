@@ -1,19 +1,12 @@
 package com.informatica.controle_material.domain.model;
 
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -60,9 +53,8 @@ public class Item {
   @Column(name = "is_in_charge", nullable = false)
   private Boolean isInCharge;
 
-  @JsonIgnore
-  @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  private List<Loan> loans;
+  @Column(name = "amount_out", nullable = true)
+  private Integer amountOut;
 
   @ManyToOne
   @JoinColumn(name = "category_id", nullable = false, updatable = false)
