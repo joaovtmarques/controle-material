@@ -124,10 +124,11 @@ public class AddLoanImpl implements AddLoanUseCase {
     LoanDoc loanDoc = new LoanDoc();
     loanDoc.setLoan(loan);
     loanDoc.setFilePath(filePath);
-    loanDocRepository.save(loanDoc);
-    loan.setLoanDoc(loanDoc);
+    LoanDoc savedLoanDoc = loanDocRepository.save(loanDoc);
+    loan.setLoanDoc(savedLoanDoc);
+    Loan savedLoan = loanRepository.save(loan);
 
-    return new AddLoanResponseDTO(loanRepository.save(loan));
+    return new AddLoanResponseDTO(savedLoan);
   }
 
 }
