@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.informatica.controle_material.domain.model.Item;
@@ -19,8 +20,8 @@ public class FindAllItemsController {
   private FindAllItemsUseCase findAllItems;
 
   @GetMapping
-  public ResponseEntity<List<Item>> handle() {
-    List<Item> items = findAllItems.execute();
+  public ResponseEntity<List<Item>> handle(@RequestParam String type) {
+    List<Item> items = findAllItems.execute(type);
 
     return ResponseEntity.ok(items);
   }

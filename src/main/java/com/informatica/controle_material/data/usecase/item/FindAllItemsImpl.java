@@ -17,9 +17,9 @@ public class FindAllItemsImpl implements FindAllItemsUseCase {
   private ItemRepository itemRepository;
 
   @Override
-  public List<Item> execute() {
+  public List<Item> execute(String type) {
     try {
-      return itemRepository.findAll();
+      return itemRepository.findAllByType(type);
     } catch (Exception e) {
       throw new BadRequestException("Erro ao buscar os items");
     }

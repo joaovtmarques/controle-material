@@ -6,6 +6,6 @@ import com.informatica.controle_material.domain.model.Item;
 
 public interface FindAllItemsUseCase {
   
-  List<Item> execute();
+  List<Item> execute(String type);
 
 }
