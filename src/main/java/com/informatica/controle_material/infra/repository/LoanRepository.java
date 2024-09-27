@@ -10,6 +10,6 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
   
   List<Loan> findByReceiverId(Long receiverId);
 
-  List<Loan> findByType(String type);
+  List<Loan> findAllByType(String type);
 
 }
