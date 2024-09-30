@@ -9,21 +9,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.informatica.controle_material.data.dto.loan.FindLoanByStatusDTO;
 import com.informatica.controle_material.domain.model.Loan;
-import com.informatica.controle_material.domain.usecases.loan.FindAllOpenLoansUseCase;
+import com.informatica.controle_material.domain.usecases.loan.FindAllLoansByStatusUseCase;
 import com.informatica.controle_material.presentation.controller.protocol.ControllerProtocol;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/loans/open")
-public class FindAllOpenLoansController implements ControllerProtocol<String, ResponseEntity<List<Loan>>> {
+public class FindAllLoansByStatusController {
   
   @Autowired
-  private FindAllOpenLoansUseCase findAllOpenLoans;
+  private FindAllLoansByStatusUseCase findAllOpenLoans;
 
-  @Override
   @GetMapping
-  public ResponseEntity<List<Loan>> handle(@RequestParam String type) {
-    return ResponseEntity.ok(findAllOpenLoans.execute(type));
+  public ResponseEntity<List<Loan>> handle(@RequestParam String status, @RequestParam String type) {
+    return ResponseEntity.ok(findAllOpenLoans.execute(new FindLoanByStatusDTO(status, type)));
   }
 
 }
