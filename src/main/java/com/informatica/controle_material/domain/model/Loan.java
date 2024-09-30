@@ -51,6 +51,9 @@ public class Loan {
   @Column(name = "type", nullable = false)
   private String type;
 
+  @Column(name = "alteration", nullable = false, columnDefinition = "boolean default false")
+  private Boolean alteration;
+
   @ManyToOne
   @JoinColumn(name = "lender_id", nullable = false, updatable = false)
   private User lender;
