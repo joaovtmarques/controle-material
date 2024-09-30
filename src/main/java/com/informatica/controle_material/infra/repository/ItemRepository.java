@@ -15,4 +15,6 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 
   List<Item> findAllByIsInChargeAndType(boolean isInCharge, String type);
 
+  List<Item> findByAmountGreaterThanEqualAndType(Integer amount, String type);
+
 }
