@@ -10,19 +10,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.informatica.controle_material.domain.model.Loan;
-import com.informatica.controle_material.domain.usecases.loan.FindAllLoansUseCase;
+import com.informatica.controle_material.domain.usecases.loan.FindAllOpenLoansUseCase;
 import com.informatica.controle_material.presentation.controller.protocol.ControllerProtocol;
 
 @RestController
-@RequestMapping("/api/loans")
-public class FindAllLoansController implements ControllerProtocol<String, ResponseEntity<List<Loan>>> {
+@RequestMapping("/api/loans/open")
+public class FindAllOpenLoansController implements ControllerProtocol<String, ResponseEntity<List<Loan>>> {
   
   @Autowired
-  private FindAllLoansUseCase findAllLoans;
+  private FindAllOpenLoansUseCase findAllOpenLoans;
+
   @Override
   @GetMapping
   public ResponseEntity<List<Loan>> handle(@RequestParam String type) {
-    return ResponseEntity.ok(findAllLoans.execute(type));
+    return ResponseEntity.ok(findAllOpenLoans.execute(type));
   }
 
 }

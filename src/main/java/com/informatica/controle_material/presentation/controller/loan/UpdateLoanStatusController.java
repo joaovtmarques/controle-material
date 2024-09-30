@@ -22,7 +22,7 @@ public class UpdateLoanStatusController {
   private UpdateLoanStatusUseCase updateLoanStatus;
 
   @PatchMapping("/{id}")
-  public ResponseEntity<Loan> execute(@PathVariable Long id, @Valid @RequestBody UpdateLoanStatusDTO status) {
+  public ResponseEntity<Loan> handle(@PathVariable Long id, @Valid @RequestBody UpdateLoanStatusDTO status) {
     Loan loan = updateLoanStatus.execute(id, status.status());
     return ResponseEntity.ok(loan);
   }
