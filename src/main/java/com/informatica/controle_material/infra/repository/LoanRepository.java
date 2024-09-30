@@ -14,4 +14,6 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
 
   List<Loan> findAllByStatusAndType(String status, String type);
 
+  List<Loan> findAllByAlterationAndType(Boolean alteration, String type);
+
 }
