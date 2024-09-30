@@ -29,7 +29,7 @@ public class UpdateLoanStatusImpl implements UpdateLoanStatusUseCase {
 
   @Transactional
   @Override
-  public Loan execute(Long id, String status) {
+  public Loan execute(Long id, String status, Boolean alteration) {
     Optional<Loan> loanExists = loanRepository.findById(id);
 
     if(loanExists.isEmpty()) {
@@ -53,6 +53,7 @@ public class UpdateLoanStatusImpl implements UpdateLoanStatusUseCase {
     }
 
     loanExists.get().setStatus(status);
+    loanExists.get().setAlteration(alteration);
     return loanRepository.save(loanExists.get());
   }
 
