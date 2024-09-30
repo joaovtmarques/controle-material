@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.informatica.controle_material.data.dto.loan.FindLoanByStatusDTO;
 import com.informatica.controle_material.domain.model.Loan;
 import com.informatica.controle_material.domain.usecases.loan.FindAllLoansByStatusUseCase;
-import com.informatica.controle_material.presentation.controller.protocol.ControllerProtocol;
-
-import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/loans/open")
