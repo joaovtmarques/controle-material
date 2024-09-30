@@ -15,4 +15,6 @@ public interface EquipmentRepository extends JpaRepository<Equipment, Long> {
 
   List<Equipment> findByState(String state);
 
+  List<Equipment> findByIsInChargeAndType(Boolean isInCharge, String type);
+
 }
