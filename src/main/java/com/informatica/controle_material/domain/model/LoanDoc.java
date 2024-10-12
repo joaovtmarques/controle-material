@@ -24,19 +24,19 @@ import lombok.Setter;
 @Entity
 @Table(name = "loan_docs")
 public class LoanDoc {
-  
+
   @EqualsAndHashCode.Include
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id", updatable = false, unique = true, nullable = false)
   private Long id;
 
-  @Column(name = "file_path", nullable = false)
+  @Column(name = "file_path", nullable = true)
   private String filePath;
 
   @JsonIgnore
   @ManyToOne
-  @JoinColumn(name = "loan_id", nullable = false, updatable = false)
+  @JoinColumn(name = "loan_id", nullable = true)
   private Loan loan;
 
 }

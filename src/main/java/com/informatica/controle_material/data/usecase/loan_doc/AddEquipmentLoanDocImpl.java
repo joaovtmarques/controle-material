@@ -28,7 +28,7 @@ public class AddEquipmentLoanDocImpl implements AddLoanDocUseCase {
   @Override
   public String execute(Loan loan) {
     Document document = new Document("src/main/resources/loan-equipments-form.docx");
-    String[] header = {"Material", "Número de série", "Tipo", "Condição", "Quantidade", "Preço"};
+    String[] header = { "Material", "Número de série", "Tipo", "Condição", "Quantidade", "Preço" };
 
     document.replace("{receiver}", loan.getReceiver().getName(), false, true);
     document.replace("{cpf}", loan.getReceiver().getCpf(), false, true);
@@ -47,7 +47,7 @@ public class AddEquipmentLoanDocImpl implements AddLoanDocUseCase {
 
     BookmarksNavigator bn = new BookmarksNavigator(document);
     bn.moveToBookmark("Tabl", true, true);
-    Table table=section.getBody().addTable(true);
+    Table table = section.getBody().addTable(true);
     table.resetCells(loan.getEquipments().size(), 6);
     bn.insertTable(table);
     TableRow rowHeader = table.getRows().get(0);
@@ -67,8 +67,8 @@ public class AddEquipmentLoanDocImpl implements AddLoanDocUseCase {
       TableRow dataRow = table.addRow();
       TableRow tb = table.getRows().get(dataRow.getRowIndex());
       tb.getCells().get(0).addParagraph().appendText(equipment.getName());
-      if(equipment.getSerialNumber() != null) {
-          tb.getCells().get(1).addParagraph().appendText(equipment.getSerialNumber());
+      if (equipment.getSerialNumber() != null) {
+        tb.getCells().get(1).addParagraph().appendText(equipment.getSerialNumber());
       }
       tb.getCells().get(2).addParagraph().appendText(equipment.getCategory().getName());
       tb.getCells().get(3).addParagraph().appendText(equipment.getCondition());
@@ -76,7 +76,7 @@ public class AddEquipmentLoanDocImpl implements AddLoanDocUseCase {
       tb.getCells().get(5).addParagraph().appendText(equipment.getPrice().toString());
       totalPrice += Double.parseDouble(equipment.getPrice());
     }
-  
+
     DecimalFormatSymbols separator = new DecimalFormatSymbols();
     separator.setDecimalSeparator('.');
     DecimalFormat formatter = new DecimalFormat("#00.000", separator);
@@ -85,27 +85,34 @@ public class AddEquipmentLoanDocImpl implements AddLoanDocUseCase {
     table.applyHorizontalMerge(lastRow.getRowIndex(), 0, 4);
     lastRow.getCells().get(0).addParagraph().appendText("Preço Total").getCharacterFormat().setBold(true);
     lastRow.getCells().get(0).getLastParagraph();
-    lastRow.getCells().get(5).addParagraph().appendText("R$ "+formatter.format(totalPrice));
+    lastRow.getCells().get(5).addParagraph().appendText("R$ " + formatter.format(totalPrice));
 
     String finalFilePath = "";
     String filePath = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
-    
-    File dirPelcom = new File("tmp/pelcom/"+filePath);
-    File dirInformatica = new File("tmp/informatica/"+filePath);
-    if (!dirPelcom.exists()) dirPelcom.mkdirs();
-    if (!dirInformatica.exists()) dirInformatica.mkdirs();
 
-    if(loan.getType().equals("PELCOM")) {
-      finalFilePath = dirPelcom+"/"+loan.getReceiver().getRank()+loan.getReceiver().getWarName()+loan.getId()+".docx";
-      document.saveToFile(dirPelcom+"/"+loan.getReceiver().getRank()+loan.getReceiver().getWarName()+loan.getId()+".docx", FileFormat.Docx);
+    File dirPelcom = new File("tmp/pelcom/" + filePath);
+    File dirInformatica = new File("tmp/informatica/" + filePath);
+    if (!dirPelcom.exists())
+      dirPelcom.mkdirs();
+    if (!dirInformatica.exists())
+      dirInformatica.mkdirs();
+
+    if (loan.getType().equals("PELCOM")) {
+      finalFilePath = dirPelcom + "/" + loan.getReceiver().getRank() + loan.getReceiver().getWarName() + loan.getId()
+          + ".docx";
+      document.saveToFile(
+          dirPelcom + "/" + loan.getReceiver().getRank() + loan.getReceiver().getWarName() + loan.getId() + ".docx",
+          FileFormat.Docx);
     }
-    if(loan.getType().equals("INFORMATICA")) {
-      finalFilePath = dirInformatica+"/"+loan.getReceiver().getRank()+loan.getReceiver().getWarName()+loan.getId()+".docx";
-      document.saveToFile(dirInformatica+"/"+loan.getReceiver().getRank()+loan.getReceiver().getWarName()+loan.getId()+".docx", FileFormat.Docx);
+    if (loan.getType().equals("INFORMATICA")) {
+      finalFilePath = dirInformatica + "/" + loan.getReceiver().getRank() + loan.getReceiver().getWarName()
+          + loan.getId() + ".docx";
+      document.saveToFile(dirInformatica + "/" + loan.getReceiver().getRank() + loan.getReceiver().getWarName()
+          + loan.getId() + ".docx", FileFormat.Docx);
     }
 
     document.dispose();
-    
+
     return finalFilePath;
   }
 

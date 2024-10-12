@@ -26,7 +26,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "loans")
 public class Loan {
-  
+
   @EqualsAndHashCode.Include
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -69,7 +69,7 @@ public class Loan {
   private List<Equipment> equipments;
 
   @ManyToOne
-  @JoinColumn(name = "loan_doc_id", nullable = true, updatable = false)
+  @JoinColumn(name = "loan_doc_id", nullable = true)
   private LoanDoc loanDoc;
 
 }
