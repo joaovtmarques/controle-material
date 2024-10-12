@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.informatica.controle_material.data.dto.auth.AuthRequestDTO;
+import com.informatica.controle_material.data.dto.auth.AuthResponseDTO;
 import com.informatica.controle_material.domain.usecases.auth.AuthUseCase;
 
 @CrossOrigin("*")
@@ -20,8 +21,8 @@ public class AuthController {
   private AuthUseCase auth;
 
   @PostMapping
-  public ResponseEntity<String> handle(@RequestBody AuthRequestDTO authRequestDTO) {
-    String token = auth.execute(authRequestDTO);
+  public ResponseEntity<AuthResponseDTO> handle(@RequestBody AuthRequestDTO authRequestDTO) {
+    AuthResponseDTO token = auth.execute(authRequestDTO);
     return ResponseEntity.ok(token);
   }
 

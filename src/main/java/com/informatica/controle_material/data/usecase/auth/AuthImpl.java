@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.informatica.controle_material.data.dto.auth.AuthRequestDTO;
+import com.informatica.controle_material.data.dto.auth.AuthResponseDTO;
 import com.informatica.controle_material.data.exception.NotFoundException;
 import com.informatica.controle_material.data.exception.UnauthorizedException;
 import com.informatica.controle_material.domain.model.User;
@@ -27,18 +28,18 @@ public class AuthImpl implements AuthUseCase {
   private TokenUseCase tokenService;
 
   @Override
-  public String execute(AuthRequestDTO authRequestDTO) {
+  public AuthResponseDTO execute(AuthRequestDTO authRequestDTO) {
     Optional<User> userExists = userRepository.findByEmail(authRequestDTO.email());
-    
-    if(userExists.isEmpty()) {
-      throw new NotFoundException("O usuário com o email: "+authRequestDTO.email()+" não existe");
+
+    if (userExists.isEmpty()) {
+      throw new NotFoundException("O usuário com o email: " + authRequestDTO.email() + " não existe");
     }
 
-    if(!passwordEncoder.matches(authRequestDTO.password(), userExists.get().getPassword())) {
+    if (!passwordEncoder.matches(authRequestDTO.password(), userExists.get().getPassword())) {
       throw new UnauthorizedException("As credenciais de login não são válidas");
     }
 
     return tokenService.generateToken(userExists.get());
   }
-  
+
 }
