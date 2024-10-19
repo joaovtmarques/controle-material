@@ -10,13 +10,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.informatica.controle_material.domain.model.Category;
 import com.informatica.controle_material.domain.usecases.category.FindAllCategoriesUseCase;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 
-
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/categories")
 public class FindAllCategoriesController {
-  
+
   @Autowired
   private FindAllCategoriesUseCase findAllCategories;
 
@@ -26,5 +28,5 @@ public class FindAllCategoriesController {
 
     return ResponseEntity.ok(categories);
   }
-  
+
 }

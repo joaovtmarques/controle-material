@@ -2,6 +2,7 @@ package com.informatica.controle_material.presentation.controller.loan;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,15 +15,17 @@ import com.informatica.controle_material.domain.usecases.loan.UpdateLoanStatusUs
 
 import jakarta.validation.Valid;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/loans")
 public class UpdateLoanStatusController {
-  
+
   @Autowired
   private UpdateLoanStatusUseCase updateLoanStatus;
 
   @PatchMapping("/{id}")
-  public ResponseEntity<Loan> handle(@PathVariable Long id, @RequestBody @Valid UpdateLoanStatusDTO updateLoanStatusDTO) {
+  public ResponseEntity<Loan> handle(@PathVariable Long id,
+      @RequestBody @Valid UpdateLoanStatusDTO updateLoanStatusDTO) {
     Loan loan = updateLoanStatus.execute(id, updateLoanStatusDTO.status(), updateLoanStatusDTO.alteration());
     return ResponseEntity.ok(loan);
   }

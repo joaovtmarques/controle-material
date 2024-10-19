@@ -2,6 +2,7 @@ package com.informatica.controle_material.presentation.controller.equipment;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,10 +15,11 @@ import com.informatica.controle_material.presentation.controller.protocol.Contro
 
 import jakarta.validation.Valid;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/equipments")
 public class AddEquipmentController implements ControllerProtocol<AddEquipmentDTO, ResponseEntity<Equipment>> {
-  
+
   @Autowired
   private AddEquipmentUseCase addEquipment;
 

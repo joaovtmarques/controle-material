@@ -12,14 +12,15 @@ import com.informatica.controle_material.presentation.controller.protocol.Contro
 
 import jakarta.validation.Valid;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/categories")
 public class AddCategoryController implements ControllerProtocol<AddCategoryDTO, ResponseEntity<Category>> {
-  
+
   @Autowired
   private AddCategoryUseCase addCategory;
 

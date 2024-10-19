@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,12 +14,13 @@ import com.informatica.controle_material.domain.model.Item;
 import com.informatica.controle_material.domain.usecases.item.FindAllItemsInStockUseCase;
 import com.informatica.controle_material.presentation.controller.protocol.ControllerProtocol;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/items/in-stock")
 public class FindAllItemsInStockController implements ControllerProtocol<String, ResponseEntity<List<Item>>> {
-  
+
   @Autowired
-  private FindAllItemsInStockUseCase findAllItemsInStock; 
+  private FindAllItemsInStockUseCase findAllItemsInStock;
 
   @Override
   @GetMapping
