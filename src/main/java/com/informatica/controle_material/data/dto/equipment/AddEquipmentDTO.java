@@ -7,27 +7,18 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record AddEquipmentDTO(
-  @NotBlank(message = "O nome do item deve ser informado.")
-  String name,
-  String serialNumber,
-  @NotNull(message = "Informe a quantidade disponível do equipamento")
-  Integer amount,
-  @NotNull(message = "Informe o preço do equipamento")
-  String price,
-  @NotBlank(message = "Uma observação do equipamento deve ser informada")
-  String observation,
-  @NotBlank(message = "Um tipo de equipamento válido deve ser informado")
-  String type,
-  @NotBlank(message = "Um estado válido deve ser informado")
-  String state,
-  @NotBlank(message = "Uma condição do equipamento deve ser informada")
-  String condition,
-  @NotNull(message = "Informe se o equipamento está em carga")
-  Boolean isInCharge,
-  @NotNull(message = "Uma categoria válida deve ser informada")
-  Long categoryId
-) {
-  
+    @NotBlank(message = "O nome do item deve ser informado.") String name,
+    String serialNumber,
+    @NotNull(message = "Informe a quantidade disponível do equipamento") Integer amount,
+    @NotNull(message = "Informe a quantidade fora do equipamento") Integer amountOut,
+    @NotNull(message = "Informe o preço do equipamento") String price,
+    @NotBlank(message = "Uma observação do equipamento deve ser informada") String observation,
+    @NotBlank(message = "Um tipo de equipamento válido deve ser informado") String type,
+    @NotBlank(message = "Um estado válido deve ser informado") String state,
+    @NotBlank(message = "Uma condição do equipamento deve ser informada") String condition,
+    @NotNull(message = "Informe se o equipamento está em carga") Boolean isInCharge,
+    @NotNull(message = "Uma categoria válida deve ser informada") Long categoryId) {
+
   public Equipment toModel(Category category) {
     Equipment equipment = new Equipment();
     equipment.setAmount(amount);
@@ -40,6 +31,7 @@ public record AddEquipmentDTO(
     equipment.setState(state);
     equipment.setCondition(condition);
     equipment.setIsInCharge(isInCharge);
+    equipment.setAmountOut(amountOut);
 
     return equipment;
   }
