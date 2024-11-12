@@ -1,5 +1,7 @@
 package com.informatica.controle_material.data.dto.equipment;
 
+import java.math.BigDecimal;
+
 import com.informatica.controle_material.domain.model.Category;
 import com.informatica.controle_material.domain.model.Equipment;
 
@@ -11,7 +13,7 @@ public record AddEquipmentDTO(
     String serialNumber,
     @NotNull(message = "Informe a quantidade disponível do equipamento") Integer amount,
     @NotNull(message = "Informe a quantidade fora do equipamento") Integer amountOut,
-    @NotNull(message = "Informe o preço do equipamento") String price,
+    @NotNull(message = "Informe o preço do equipamento") BigDecimal price,
     @NotBlank(message = "Uma observação do equipamento deve ser informada") String observation,
     @NotBlank(message = "Um tipo de equipamento válido deve ser informado") String type,
     @NotBlank(message = "Um estado válido deve ser informado") String state,

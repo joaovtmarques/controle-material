@@ -1,5 +1,10 @@
 package com.informatica.controle_material.domain.model;
 
+import java.math.BigDecimal;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,7 +27,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "equipments")
 public class Equipment {
-  
+
   @EqualsAndHashCode.Include
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +41,7 @@ public class Equipment {
   private Integer amount;
 
   @Column(name = "total_price", nullable = false)
-  private String price;
+  private BigDecimal price;
 
   @Column(name = "serial_number", unique = true, nullable = true)
   private String serialNumber;
@@ -61,6 +66,7 @@ public class Equipment {
 
   @ManyToOne
   @JoinColumn(name = "category_id", nullable = false, updatable = false)
+  @OnDelete(action = OnDeleteAction.CASCADE)
   private Category category;
 
 }
