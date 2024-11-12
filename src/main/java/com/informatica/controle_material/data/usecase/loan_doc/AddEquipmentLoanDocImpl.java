@@ -1,10 +1,12 @@
 package com.informatica.controle_material.data.usecase.loan_doc;
 
 import java.io.File;
-import java.text.DecimalFormat;
+import java.math.BigDecimal;
 import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import org.springframework.stereotype.Service;
 
@@ -38,6 +40,16 @@ public class AddEquipmentLoanDocImpl implements AddLoanDocUseCase {
     document.replace("{lenderRank}", loan.getLender().getRank(), false, true);
     document.replace("{lender}", loan.getLender().getWarName(), false, true);
     document.replace("{observation}", loan.getObservation(), false, true);
+    document.replace("{devolutionDate}", loan.getDevolutionDate(), false, true);
+
+    String equipmentsName = "";
+    for (int i = 0; i < loan.getEquipments().size(); i++) {
+      equipmentsName += loan.getEquipments().get(i).getName();
+      if (i < loan.getEquipments().size() - 1) {
+        equipmentsName += ", ";
+      }
+    }
+    document.replace("{name}", equipmentsName, false, true);
 
     Section section = document.getSections().get(0);
     Paragraph paragraphStart = section.getParagraphs().get(9);
@@ -61,7 +73,9 @@ public class AddEquipmentLoanDocImpl implements AddLoanDocUseCase {
       txtRange.getCharacterFormat().setBold(true);
     }
 
-    Double totalPrice = 0D;
+    BigDecimal totalPrice = loan.getEquipments().stream()
+        .map(Equipment::getPrice)
+        .reduce(BigDecimal.ZERO, BigDecimal::add);
 
     for (Equipment equipment : loan.getEquipments()) {
       TableRow dataRow = table.addRow();
@@ -74,18 +88,17 @@ public class AddEquipmentLoanDocImpl implements AddLoanDocUseCase {
       tb.getCells().get(3).addParagraph().appendText(equipment.getCondition());
       tb.getCells().get(4).addParagraph().appendText(loan.getAmount().toString());
       tb.getCells().get(5).addParagraph().appendText(equipment.getPrice().toString());
-      totalPrice += Double.parseDouble(equipment.getPrice());
     }
 
     DecimalFormatSymbols separator = new DecimalFormatSymbols();
     separator.setDecimalSeparator('.');
-    DecimalFormat formatter = new DecimalFormat("#00.000", separator);
+    NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
     table.addRow();
     TableRow lastRow = table.addRow();
     table.applyHorizontalMerge(lastRow.getRowIndex(), 0, 4);
     lastRow.getCells().get(0).addParagraph().appendText("Preço Total").getCharacterFormat().setBold(true);
     lastRow.getCells().get(0).getLastParagraph();
-    lastRow.getCells().get(5).addParagraph().appendText("R$ " + formatter.format(totalPrice));
+    lastRow.getCells().get(5).addParagraph().appendText("R$ " + format.format(totalPrice));
 
     String finalFilePath = "";
     String filePath = new SimpleDateFormat("dd-MM-yyyy").format(new Date());

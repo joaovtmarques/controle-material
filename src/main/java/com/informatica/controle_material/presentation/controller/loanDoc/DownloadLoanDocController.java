@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,20 +29,26 @@ public class DownloadLoanDocController {
   private DownloadLoanDocUseCase downloadLoanDoc;
 
   @GetMapping("/download")
-  public ResponseEntity<String> handle(
+  public ResponseEntity<Resource> handle(
       @RequestParam("filePath") String filePath,
       HttpServletRequest request) throws URISyntaxException, IOException {
     try {
       DownloadLoanDocDTO downloadLoanDocDTO = downloadLoanDoc.execute(filePath, request);
+      Resource resource = downloadLoanDocDTO.resource();
+
+      String contentType = downloadLoanDocDTO.contentType();
+      if (contentType == null) {
+        contentType = "application/octet-stream";
+      }
 
       return ResponseEntity.ok()
-          .contentType(MediaType.parseMediaType(downloadLoanDocDTO.contentType()))
+          .contentType(MediaType.parseMediaType(contentType))
           .header(HttpHeaders.CONTENT_DISPOSITION,
-              "attachment; filename=\"" + downloadLoanDocDTO.resource().getFilename() + "\"")
-          .body(downloadLoanDocDTO.resource().toString());
+              "attachment; filename=\"" + resource.getFilename() + "\"")
+          .body(resource);
+
     } catch (MalformedURLException ex) {
       return ResponseEntity.badRequest().body(null);
     }
   }
-
 }

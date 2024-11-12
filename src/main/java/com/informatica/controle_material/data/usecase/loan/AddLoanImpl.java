@@ -1,9 +1,9 @@
 package com.informatica.controle_material.data.usecase.loan;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.io.File;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,6 @@ import com.informatica.controle_material.domain.model.Receiver;
 import com.informatica.controle_material.domain.model.User;
 import com.informatica.controle_material.domain.usecases.loan.AddLoanUseCase;
 import com.informatica.controle_material.domain.usecases.loan_doc.AddLoanDocUseCase;
-import com.informatica.controle_material.domain.usecases.upload.UploadFileUseCase;
 import com.informatica.controle_material.infra.factory.AddLoanDocFactory;
 import com.informatica.controle_material.infra.repository.EquipmentRepository;
 import com.informatica.controle_material.infra.repository.ItemRepository;
@@ -50,9 +49,6 @@ public class AddLoanImpl implements AddLoanUseCase {
 
   @Autowired
   private LoanDocRepository loanDocRepository;
-
-  @Autowired
-  private UploadFileUseCase uploadFile;
 
   private final AddLoanDocFactory addLoanDocFactory;
 
@@ -128,6 +124,7 @@ public class AddLoanImpl implements AddLoanUseCase {
     String filePath = addLoanDoc.execute(loan);
 
     LoanDoc loanDoc = new LoanDoc();
+    loanDoc.setLoan(loan);
     LoanDoc savedLoanDoc = loanDocRepository.save(loanDoc);
     loan.setLoanDoc(savedLoanDoc);
     Loan savedLoan = loanRepository.save(loan);
@@ -135,9 +132,8 @@ public class AddLoanImpl implements AddLoanUseCase {
     savedLoanDoc.setLoan(savedLoan);
 
     File file = new File(filePath);
-    String url = uploadFile.execute(file);
-    savedLoan.getLoanDoc().setFilePath(url);
-    savedLoanDoc.setFilePath(url);
+    savedLoan.getLoanDoc().setFilePath(file.getPath());
+    savedLoanDoc.setFilePath(file.getPath());
 
     loanRepository.save(savedLoan);
     loanDocRepository.save(savedLoanDoc);
