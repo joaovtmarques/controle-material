@@ -2,6 +2,9 @@ package com.informatica.controle_material.domain.model;
 
 import java.util.List;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
@@ -27,7 +30,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "receivers")
 public class Receiver {
-  
+
   @EqualsAndHashCode.Include
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,13 +38,13 @@ public class Receiver {
   private Long id;
 
   @Column(name = "name", nullable = false)
-  private String name; 
+  private String name;
 
   @Column(name = "war_name", nullable = false)
-  private String warName; 
+  private String warName;
 
   @Column(name = "rank", nullable = false)
-  private String rank; 
+  private String rank;
 
   @Column(name = "company", nullable = false)
   private String company;
@@ -54,6 +57,7 @@ public class Receiver {
 
   @JsonIgnore
   @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @OnDelete(action = OnDeleteAction.CASCADE)
   private List<Loan> loans;
 
 }

@@ -1,5 +1,8 @@
 package com.informatica.controle_material.domain.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
@@ -37,6 +40,7 @@ public class LoanDoc {
   @JsonIgnore
   @ManyToOne
   @JoinColumn(name = "loan_id", nullable = true)
+  @OnDelete(action = OnDeleteAction.CASCADE)
   private Loan loan;
 
 }

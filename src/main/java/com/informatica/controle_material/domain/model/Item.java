@@ -1,5 +1,8 @@
 package com.informatica.controle_material.domain.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,7 +25,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "items")
 public class Item {
-  
+
   @EqualsAndHashCode.Include
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,6 +61,7 @@ public class Item {
 
   @ManyToOne
   @JoinColumn(name = "category_id", nullable = false, updatable = false)
+  @OnDelete(action = OnDeleteAction.CASCADE)
   private Category category;
 
 }

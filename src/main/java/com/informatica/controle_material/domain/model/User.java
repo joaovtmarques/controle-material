@@ -34,7 +34,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
-  
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id", updatable = false, unique = true, nullable = false)
@@ -42,12 +42,12 @@ public class User implements UserDetails {
 
   @Column(name = "name", nullable = false)
   private String name;
-  
+
   @Column(name = "war_name", nullable = false)
-  private String warName; 
+  private String warName;
 
   @Column(name = "rank", nullable = false)
-  private String rank; 
+  private String rank;
 
   @Column(name = "company", nullable = false)
   private String company;

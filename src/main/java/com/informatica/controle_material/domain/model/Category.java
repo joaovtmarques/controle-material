@@ -2,6 +2,9 @@ package com.informatica.controle_material.domain.model;
 
 import java.util.List;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
@@ -42,10 +45,12 @@ public class Category {
 
   @JsonIgnore
   @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @OnDelete(action = OnDeleteAction.CASCADE)
   private List<Item> items;
 
   @JsonIgnore
   @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @OnDelete(action = OnDeleteAction.CASCADE)
   private List<Equipment> equipment;
-  
+
 }

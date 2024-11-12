@@ -2,6 +2,9 @@ package com.informatica.controle_material.domain.model;
 
 import java.util.List;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -45,13 +48,13 @@ public class Loan {
   @Column(name = "devolution_date")
   private String devolutionDate;
 
-  @Column(name = "status", columnDefinition = "varchar(25) default 'ABERTO'")
+  @Column(name = "status")
   private String status;
 
   @Column(name = "type", nullable = false)
   private String type;
 
-  @Column(name = "alteration", nullable = false, columnDefinition = "boolean default false")
+  @Column(name = "alteration", nullable = false)
   private Boolean alteration;
 
   @ManyToOne
@@ -60,16 +63,20 @@ public class Loan {
 
   @ManyToOne
   @JoinColumn(name = "receiver_id", nullable = false, updatable = false)
+  @OnDelete(action = OnDeleteAction.CASCADE)
   private Receiver receiver;
 
   @ManyToMany(fetch = FetchType.EAGER)
+  @OnDelete(action = OnDeleteAction.CASCADE)
   private List<Item> items;
 
   @ManyToMany(fetch = FetchType.EAGER)
+  @OnDelete(action = OnDeleteAction.CASCADE)
   private List<Equipment> equipments;
 
   @ManyToOne
   @JoinColumn(name = "loan_doc_id", nullable = true)
+  @OnDelete(action = OnDeleteAction.CASCADE)
   private LoanDoc loanDoc;
 
 }
