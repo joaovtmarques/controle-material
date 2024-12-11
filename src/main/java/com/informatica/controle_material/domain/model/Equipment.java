@@ -58,6 +58,12 @@ public class Equipment {
   @Column(name = "is_in_charge", nullable = false)
   private Boolean isInCharge;
 
+  @Column(name = "is_temporary", nullable = false)
+  private Boolean isTemporary;
+
+  @Column(name = "owner", nullable = true)
+  private String owner;
+
   @Column(name = "condition", nullable = false)
   private String condition;
 

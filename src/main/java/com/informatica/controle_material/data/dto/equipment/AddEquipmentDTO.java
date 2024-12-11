@@ -18,8 +18,10 @@ public record AddEquipmentDTO(
     @NotBlank(message = "Um tipo de equipamento válido deve ser informado") String type,
     @NotBlank(message = "Um estado válido deve ser informado") String state,
     @NotBlank(message = "Uma condição do equipamento deve ser informada") String condition,
+    @NotNull(message = "Informe se o equipamento é temporário") Boolean isTemporary,
     @NotNull(message = "Informe se o equipamento está em carga") Boolean isInCharge,
-    @NotNull(message = "Uma categoria válida deve ser informada") Long categoryId) {
+    @NotNull(message = "Uma categoria válida deve ser informada") Long categoryId,
+    @NotBlank(message = "Informe o dono do equipamento") String owner) {
 
   public Equipment toModel(Category category) {
     Equipment equipment = new Equipment();
@@ -34,6 +36,8 @@ public record AddEquipmentDTO(
     equipment.setCondition(condition);
     equipment.setIsInCharge(isInCharge);
     equipment.setAmountOut(amountOut);
+    equipment.setIsTemporary(isTemporary);
+    equipment.setOwner(owner);
 
     return equipment;
   }
