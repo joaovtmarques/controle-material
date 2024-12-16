@@ -1,4 +1,4 @@
-package com.informatica.controle_material.presentation.controller.loanDoc;
+package com.informatica.controle_material.presentation.controller.loan_doc;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -23,12 +23,12 @@ import jakarta.servlet.http.HttpServletRequest;
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/api/loans")
-public class DownloadLoanDocController {
+public class DownloadLoanReadyDocController {
 
   @Autowired
   private DownloadLoanDocUseCase downloadLoanDoc;
 
-  @GetMapping("/download")
+  @GetMapping("/loan-ready/download")
   public ResponseEntity<Resource> handle(
       @RequestParam("filePath") String filePath,
       HttpServletRequest request) throws URISyntaxException, IOException {
