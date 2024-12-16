@@ -14,22 +14,16 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record AddLoanDTO(
-  @NotNull(message = "Informe a quantidade do item")
-  Integer amount,
-  @NotBlank(message = "Uma observação da cautela deve ser informada")
-  String observation,
-  String devolutionDate,
-  @NotBlank(message = "Um tipo de cautela deve ser informado")
-  String type,
-  @NotNull(message = "Informe o responsável da cautela")
-  Long lenderId,
-  @NotNull(message = "Informe o recebedor da cautela")
-  Long receiverId,
-  @NotNull(message = "Defina se há ou não alteração na cautela")
-  Boolean alteration,
-  List<Long> itemsId,
-  List<Long> equipmentsId
-) {
+    @NotNull(message = "Informe a quantidade do item") Integer amount,
+    @NotBlank(message = "Uma observação da cautela deve ser informada") String observation,
+    String devolutionDate,
+    @NotBlank(message = "Um tipo de cautela deve ser informado") String type,
+    @NotBlank(message = "Informe a missão da cautela") String mission,
+    @NotNull(message = "Informe o responsável da cautela") Long lenderId,
+    @NotNull(message = "Informe o recebedor da cautela") Long receiverId,
+    @NotNull(message = "Defina se há ou não alteração na cautela") Boolean alteration,
+    List<Long> itemsId,
+    List<Long> equipmentsId) {
 
   public Loan toModelWithEquipment(List<Equipment> equipments, User user, Receiver receiver) {
     Loan loan = new Loan();
@@ -39,6 +33,7 @@ public record AddLoanDTO(
     loan.setDevolutionDate(this.devolutionDate());
     loan.setStatus("ABERTO");
     loan.setType(this.type);
+    loan.setMission(mission);
     loan.setLender(user);
     loan.setReceiver(receiver);
     loan.setAlteration(alteration);
@@ -54,11 +49,12 @@ public record AddLoanDTO(
     loan.setDevolutionDate(this.devolutionDate);
     loan.setStatus("ABERTO");
     loan.setType(this.type);
+    loan.setMission(mission);
     loan.setLender(user);
     loan.setReceiver(receiver);
     loan.setAlteration(alteration);
     loan.setItems(items);
     return loan;
   }
-  
+
 }

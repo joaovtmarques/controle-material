@@ -57,6 +57,9 @@ public class Loan {
   @Column(name = "alteration", nullable = false)
   private Boolean alteration;
 
+  @Column(name = "mission", nullable = false)
+  private String mission;
+
   @ManyToOne
   @JoinColumn(name = "lender_id", nullable = false, updatable = false)
   private User lender;

@@ -70,6 +70,15 @@ public class Equipment {
   @Column(name = "amount_out", nullable = true)
   private Integer amountOut;
 
+  @Column(name = "loan_date", nullable = true)
+  private String loanDate;
+
+  @Column(name = "lender", nullable = true)
+  private String lender;
+
+  @Column(name = "receiver", nullable = true)
+  private String receiver;
+
   @ManyToOne
   @JoinColumn(name = "category_id", nullable = false, updatable = false)
   @OnDelete(action = OnDeleteAction.CASCADE)
